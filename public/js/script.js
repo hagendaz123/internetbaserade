@@ -14,7 +14,6 @@ ws.onmessage = function (message) {
   msgDiv.innerText = json.user + ": " + json.message;
   msgDiv.style.backgroundColor = json.color;
  
-
   //Se till att informationen som vi tar emot från servern läggs till i konstanten/diven msgDiv.
   document.getElementById("messages").appendChild(msgDiv);
   chat_div.scrollTop = chat_div.scrollHeight;
@@ -41,14 +40,12 @@ msgform.addEventListener("submit", (event) => {
   let msg = new Object();
   msg.message = message;
 
-  if(msg.message <= 1)
-  {
+  if(msg.message <= 1){
     alert("NEJNEJNEJ")
-  }
-  else
-  {
+  } else{
     ws.send(JSON.stringify(msg));
   }
+  
   //Skriv kod som gör att vi skickar meddelandet till servern
   //Se till att meddelandet har korrekt format
   //Ett tips är att utgå från koden ovan där vi skickar ett användarnamn till servern

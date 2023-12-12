@@ -22,8 +22,8 @@ wss.on("connection", (client) => {
       }
       broadcast(
         `{"user":"${client.username}", "message":" has entered the chat!"}`
-        //`{"user": "Server", "message":"${client.username} has entered the chat!"}`
       );
+      
     } else {
       if(msg.message.length < 1){
         alert("NEJNEJNEJ")
@@ -34,32 +34,28 @@ wss.on("connection", (client) => {
           `{"user":"${client.username}", "message":"${msg.message}", "color":"${client.color}"}`
         );
       }
-
-      
-      
 		//Skriv kod som anger vad som skall göras om vi tar emot ett meddelande som INTE innehåller nyckeln/egenskapen "username".  
     }
   });
   client.on("close", () => {
+    /** 
     broadcast(
       `{"user":"${client.username}", "message":" has left the chat!"}`
     );
-    console.log(`${client.username} disconnected.`);
+    //console.log(`${client.username} disconnected.`); 
     // Notify other clients about the user leaving
-    
-    /**
-    
     //console.log(`${(client.username ?? "Client")} disconnected.`); //Funkar endast på senare version av Node än den som finns på labbservern
     console.log(
       (Object.is(client.username, undefined) ? "Client" : client.username) +
         " disconnected."    
-    );*/
-   
+    ); */
+    broadcast(
+      `{"user":"${client.username}", "message":" has left the chat!"}`
+    );
   });
 });
 
 function broadcast(msg) {
-  
   for (const client of wss.clients) {
     if (client.readyState === ws.OPEN) {
       client.send(msg);
