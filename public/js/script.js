@@ -23,10 +23,13 @@ const user_div = document.getElementById("set_username");
 const chat_div = document.getElementById("chat");
 const userform = document.getElementById("userForm");
 const msgform = document.getElementById("msgForm");
+const errormessage = "User not found";
 
 userform.addEventListener('submit',(event) => {
   event.preventDefault();
   const username = userform.querySelector("#userinputBox").value;
+  const privatekey = userform.querySelector("#privatekeyinputBox").value;
+  getPubKeys();
   let user = new Object();
   user.username = username;
   ws.send(JSON.stringify(user));
@@ -39,19 +42,33 @@ msgform.addEventListener("submit", (event) => {
   const message = document.getElementById("messageinputBox").value;
   let msg = new Object();
   msg.message = message;
+  const privatekey = userform.querySelector("#privatekeyinputBox").value; 
+
+  console.log(msg);
 
   if(msg.message <= 1){
     alert("NEJNEJNEJ")
   } else{
+    //crypt(msg);
     ws.send(JSON.stringify(msg));
   }
-  
-  //Skriv kod som gör att vi skickar meddelandet till servern
-  //Se till att meddelandet har korrekt format
-  //Ett tips är att utgå från koden ovan där vi skickar ett användarnamn till servern
   document.getElementById("messageinputBox").value = "";
- 
 });
 msgform.addEventListener("reset", (event) => {
   ws.close();
 });
+
+function getPubKeys(){
+  
+  url = 'http://localhost:19608/api/pubkeys';
+	$.get(url).done(function(data){displayUsers(data)}).fail(function(error){console.log(error)});
+}
+function displayUsers(users){
+  for (var index = 0; index < users.length; index++) {
+    $('#userlist').append('<option value="' + users[index].username + '">' + users[index].public_key + '</option>');
+ }
+}
+function crypt(){
+  var crypt = new JSEncrypt();
+
+}

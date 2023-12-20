@@ -38,17 +38,6 @@ wss.on("connection", (client) => {
     }
   });
   client.on("close", () => {
-    /** 
-    broadcast(
-      `{"user":"${client.username}", "message":" has left the chat!"}`
-    );
-    //console.log(`${client.username} disconnected.`); 
-    // Notify other clients about the user leaving
-    //console.log(`${(client.username ?? "Client")} disconnected.`); //Funkar endast på senare version av Node än den som finns på labbservern
-    console.log(
-      (Object.is(client.username, undefined) ? "Client" : client.username) +
-        " disconnected."    
-    ); */
     broadcast(
       `{"user":"${client.username}", "message":" has left the chat!"}`
     );
@@ -69,7 +58,11 @@ function getDarkColor() {
   }
   return color;
 }
+// getPubKey = function(username){
+//   url = 'http://localhost:19608/api/pubkeys/' + encodeURIComponent(username);
+// 	$.get(url).done(function(data){console.log(data)}).fail(function(error){console.log(errormessage)});
 
+// }
 server.listen(process.argv[2] || 8080, () => {
   console.log(
     `Server listening on port ${server._connectionKey.split("::::")[1]}...`
